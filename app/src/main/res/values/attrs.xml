@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="RemoteControlView">
+        <!-- 中心图形的直径 -->
+        <attr name="centerDiameter" format="dimension" />
+        <!-- 外围环形的厚度 -->
+        <attr name="outerThickness" format="dimension" />
+        <!-- 中心和外围图形的颜色 -->
+        <attr name="centerColor" format="color" />
+        <attr name="outerColor" format="color" />
+        <!-- 外环背景 -->
+        <attr name="outerBackground" format="reference|color" />
+
+        <!-- 内圆背景 -->
+        <attr name="centerBackground" format="reference|color" />
+
+        <!-- 方向指示图片 -->
+        <attr name="upImage" format="reference" />
+        <attr name="downImage" format="reference" />
+        <attr name="leftImage" format="reference" />
+        <attr name="rightImage" format="reference" />
+
+        <!-- 方向指示文本 -->
+        <attr name="upText" format="string" />
+        <attr name="downText" format="string" />
+        <attr name="leftText" format="string" />
+        <attr name="rightText" format="string" />
+    </declare-styleable>
+</resources>
