@@ -20,7 +20,7 @@ import android.view.View
 import kotlin.math.min
 
 /**
- * 控制器的自定义View
+ * 类似遥控的控制器的自定义View
  *
  *
  * 支持外环的颜色配置，外环的背景配置
