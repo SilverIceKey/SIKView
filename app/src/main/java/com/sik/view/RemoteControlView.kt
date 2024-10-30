@@ -102,7 +102,7 @@ class RemoteControlView @JvmOverloads constructor(
     var onDirectionClickListener: OnDirectionClickListener? = null
 
     // 点击区域
-    private val buttonRegions = mutableMapOf<String, Region>()
+    private val buttonRegions = mutableMapOf<ClickType, Region>()
 
     // 视图中心点
     private var centerX: Float = 0f
@@ -144,7 +144,7 @@ class RemoteControlView @JvmOverloads constructor(
     // Handler 和 Runnable 用于长按功能
     private val handler = Handler(Looper.getMainLooper())
     private var repeatRunnable: Runnable? = null
-    private var currentPressedDirection: String? = null
+    private var currentPressedDirection: ClickType = ClickType.NONE
 
     // 长按触发延迟和重复间隔（毫秒）
     private val LONG_PRESS_DELAY = 500L
@@ -240,7 +240,7 @@ class RemoteControlView @JvmOverloads constructor(
         }
 
         // 定义四个方向及其角度
-        val directions = listOf("UP", "DOWN", "RIGHT", "LEFT")
+        val directions = listOf(ClickType.Up, ClickType.DOWN, ClickType.RIGHT, ClickType.LEFT)
         val angles = listOf(
             Pair(225f, 90f),    // UP: 从225度开始，扫过90度（225到315度）
             Pair(45f, 90f),     // DOWN: 从45度开始，扫过90度（45到135度）
@@ -412,7 +412,7 @@ class RemoteControlView @JvmOverloads constructor(
 
                 // 检测是否点击了中心按钮
                 if (isCenterClicked(event.x, event.y)) {
-                    onDirectionClickListener?.onClick("CENTER")
+                    onDirectionClickListener?.onClick(ClickType.CENTER)
                     // 不触发长按事件 for center
                     return true
                 }
@@ -459,14 +459,14 @@ class RemoteControlView @JvmOverloads constructor(
 
                     // 如果移动到非任何方向区域，停止持续点击
                     stopRepeatingClick()
-                    currentPressedDirection = null
+                    currentPressedDirection = ClickType.NONE
                 }
             }
 
             MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
                 // 用户松开或取消触摸，停止持续点击
                 stopRepeatingClick()
-                currentPressedDirection = null
+                currentPressedDirection = ClickType.NONE
             }
         }
         return super.onTouchEvent(event)
@@ -485,7 +485,7 @@ class RemoteControlView @JvmOverloads constructor(
     /**
      * 开始重复点击事件
      */
-    private fun startRepeatingClick(direction: String) {
+    private fun startRepeatingClick(direction: ClickType) {
         // 定义重复执行的 Runnable
         repeatRunnable = object : Runnable {
             override fun run() {
@@ -518,7 +518,7 @@ class RemoteControlView @JvmOverloads constructor(
     }
 
     fun interface OnDirectionClickListener {
-        fun onClick(direction: String)
+        fun onClick(direction: ClickType)
     }
 
     /**
@@ -533,5 +533,14 @@ class RemoteControlView @JvmOverloads constructor(
             region = Region()
             region.setPath(path, clipRegion)
         }
+    }
+
+    enum class ClickType {
+        NONE,
+        Up,
+        DOWN,
+        LEFT,
+        RIGHT,
+        CENTER
     }
 }
